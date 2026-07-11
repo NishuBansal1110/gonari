@@ -18,7 +18,10 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         
         config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:*")); // Supports vite dev port dynamically
+       config.setAllowedOriginPatterns(Arrays.asList(
+    "http://localhost:*",
+    "https://gonari.vercel.app"
+));// Supports vite dev port dynamically
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         
