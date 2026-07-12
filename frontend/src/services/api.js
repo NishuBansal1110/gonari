@@ -25,8 +25,8 @@ api.interceptors.request.use(
 
 // Auth endpoints
 export const authApi = {
-  signup: (userData) => api.post('/auth/signup', userData),
-  login: (credentials) => api.post('/auth/login', credentials),
+  signup: (userData) => api.post('/api/auth/signup', userData),
+login: (credentials) => api.post('/api/auth/login', credentials),
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
