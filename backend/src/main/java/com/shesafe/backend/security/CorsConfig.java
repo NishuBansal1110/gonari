@@ -7,25 +7,40 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 @Configuration
 public class CorsConfig {
 
     @Bean
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
         CorsConfiguration config = new CorsConfiguration();
-        
+
         config.setAllowCredentials(true);
-       config.setAllowedOriginPatterns(Arrays.asList(
-    "http://localhost:*",
-    "https://gonari.vercel.app"
-));// Supports vite dev port dynamically
-        config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-        
+
+        config.setAllowedOriginPatterns(Arrays.asList(
+                "http://localhost:*",
+                "https://gonari-uzjr.vercel.app",
+                "https://*.vercel.app"
+        ));
+
+        config.setAllowedMethods(Arrays.asList(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "PATCH",
+                "OPTIONS"
+        ));
+
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setExposedHeaders(Arrays.asList("Authorization"));
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", config);
+
         return new CorsFilter(source);
     }
 }

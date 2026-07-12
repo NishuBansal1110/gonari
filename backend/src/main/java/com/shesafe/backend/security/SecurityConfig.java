@@ -43,10 +43,22 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
        config.setAllowedOriginPatterns(java.util.Arrays.asList(
     "http://localhost:*",
-    "https://gonari.vercel.app"
+    "https://gonari-uzjr.vercel.app",
+    "https://*.vercel.app"
 ));
-        config.setAllowedHeaders(java.util.Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
-        config.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+
+config.setAllowedHeaders(java.util.Arrays.asList("*"));
+
+config.setAllowedMethods(java.util.Arrays.asList(
+    "GET",
+    "POST",
+    "PUT",
+    "DELETE",
+    "OPTIONS",
+    "PATCH"
+));
+
+config.setExposedHeaders(java.util.Arrays.asList("Authorization"));
         source.registerCorsConfiguration("/**", config);
         return source;
     }
