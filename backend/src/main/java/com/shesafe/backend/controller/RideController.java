@@ -133,9 +133,7 @@ public ResponseEntity<?> requestRide(
 
 return ResponseEntity.ok(responseDto);
 
-    System.out.println("STEP 10");
-
-    return ResponseEntity.ok(responseDto);
+    
 }
     
 
