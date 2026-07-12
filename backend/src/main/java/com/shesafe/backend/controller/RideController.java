@@ -79,8 +79,12 @@ public class RideController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<?> requestRide(@RequestBody RideRequestDto requestDto, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        String riderId = userDetails.getUser().getId();
+public ResponseEntity<?> requestRide(@RequestBody RideRequestDto requestDto,
+                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+    System.out.println("===== REQUEST RIDE API HIT =====");
+
+    String riderId = userDetails.getUser().getId();
 
         // 1. Check for existing active rides
         List<Ride> activeRides = rideRepository.findByRiderIdAndStatusIn(riderId, List.of("REQUESTED", "ACCEPTED", "ONGOING"));
