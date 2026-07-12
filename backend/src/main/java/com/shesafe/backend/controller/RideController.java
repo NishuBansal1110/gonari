@@ -129,19 +129,9 @@ public ResponseEntity<?> requestRide(
 
     System.out.println("STEP 8");
 
-    List<Driver> nearbyDrivers =
-            rideMatchingService.findNearbyDrivers(
-                    requestDto.getPickupLat(),
-                    requestDto.getPickupLng(),
-                    10.0);
+    System.out.println("Skipping driver matching");
 
-    System.out.println("STEP 9");
-
-    for (Driver driver : nearbyDrivers) {
-        messagingTemplate.convertAndSend(
-                "/topic/drivers/" + driver.getUserId() + "/requests",
-                responseDto);
-    }
+return ResponseEntity.ok(responseDto);
 
     System.out.println("STEP 10");
 
