@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = "https://gonari-10.onrender.com";
+const API_BASE_URL = "https://gonari-11.onrender.com";
 
 const api = axios.create({
   baseURL: API_BASE_URL,
