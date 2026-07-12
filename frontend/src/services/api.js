@@ -35,19 +35,21 @@ login: (credentials) => api.post('/api/auth/login', credentials),
 
 // Driver endpoints
 export const driverApi = {
-  getStatus: () => api.get('/drivers/status'),
-  updateStatus: (available) => api.put(`/drivers/status?available=${available}`),
-  getNearby: (lat, lng, radius = 10) => api.get(`/drivers/nearby?lat=${lat}&lng=${lng}&radius=${radius}`),
+  getStatus: () => api.get('/api/drivers/status'),
+  updateStatus: (available) =>
+    api.put(`/api/drivers/status?available=${available}`),
+  getNearby: (lat, lng, radius = 10) =>
+    api.get(`/api/drivers/nearby?lat=${lat}&lng=${lng}&radius=${radius}`),
 };
 
 // Ride endpoints
 export const rideApi = {
-  request: (rideData) => api.post('/rides/request', rideData),
-  accept: (id) => api.put(`/rides/${id}/accept`),
-  start: (id, otp) => api.put(`/rides/${id}/start?otp=${otp}`),
-  complete: (id) => api.put(`/rides/${id}/complete`),
-  getActive: () => api.get('/rides/active'),
-  getHistory: () => api.get('/rides/history'),
+  request: (rideData) => api.post('/api/rides/request', rideData),
+  accept: (id) => api.put(`/api/rides/${id}/accept`),
+  start: (id, otp) => api.put(`/api/rides/${id}/start?otp=${otp}`),
+  complete: (id) => api.put(`/api/rides/${id}/complete`),
+  getActive: () => api.get('/api/rides/active'),
+  getHistory: () => api.get('/api/rides/history'),
 };
 
 // SOS & Emergency Contact endpoints
