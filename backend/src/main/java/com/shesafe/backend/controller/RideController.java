@@ -78,7 +78,7 @@ public class RideController {
                 .build();
     }
 
-   @PostMapping("/request")
+  @PostMapping("/request")
 public ResponseEntity<?> requestRide(
         @RequestBody RideRequestDto requestDto,
         @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -101,38 +101,52 @@ public ResponseEntity<?> requestRide(
                 .body("You already have an active ride request or trip.");
     }
 
+    System.out.println("STEP 4");
 
-        // 2. Generate standard 4-digit OTP
-        String otp = String.format("%04d", random.nextInt(10000));
+    String otp = String.format("%04d", random.nextInt(10000));
 
-        Ride ride = Ride.builder()
-                .riderId(riderId)
-                .pickup(new GeoJsonPoint(requestDto.getPickupLng(), requestDto.getPickupLat()))
-                .drop(new GeoJsonPoint(requestDto.getDropLng(), requestDto.getDropLat()))
-                .pickupAddress(requestDto.getPickupAddress())
-                .dropAddress(requestDto.getDropAddress())
-                .status("REQUESTED")
-                .otp(otp)
-                .fare(requestDto.getFare())
-                .createdAt(LocalDateTime.now())
-                .build();
+    System.out.println("STEP 5");
 
-        Ride savedRide = rideRepository.save(ride);
-        RideResponseDto responseDto = convertToDto(savedRide);
+    Ride ride = Ride.builder()
+            .riderId(riderId)
+            .pickup(new GeoJsonPoint(requestDto.getPickupLng(), requestDto.getPickupLat()))
+            .drop(new GeoJsonPoint(requestDto.getDropLng(), requestDto.getDropLat()))
+            .pickupAddress(requestDto.getPickupAddress())
+            .dropAddress(requestDto.getDropAddress())
+            .status("REQUESTED")
+            .otp(otp)
+            .fare(requestDto.getFare())
+            .createdAt(LocalDateTime.now())
+            .build();
 
-        // 3. Find nearby female drivers (within 10km)
-        List<Driver> nearbyDrivers = rideMatchingService.findNearbyDrivers(requestDto.getPickupLat(), requestDto.getPickupLng(), 10.0);
+    System.out.println("STEP 6");
 
-        // Broadcast the ride request to all nearby drivers over WebSocket
-        for (Driver driver : nearbyDrivers) {
-            messagingTemplate.convertAndSend("/topic/drivers/" + driver.getUserId() + "/requests", responseDto);
-        }
+    Ride savedRide = rideRepository.save(ride);
 
-        return ResponseEntity.ok(responseDto);
+    System.out.println("STEP 7");
 
-    
+    RideResponseDto responseDto = convertToDto(savedRide);
+
+    System.out.println("STEP 8");
+
+    List<Driver> nearbyDrivers =
+            rideMatchingService.findNearbyDrivers(
+                    requestDto.getPickupLat(),
+                    requestDto.getPickupLng(),
+                    10.0);
+
+    System.out.println("STEP 9");
+
+    for (Driver driver : nearbyDrivers) {
+        messagingTemplate.convertAndSend(
+                "/topic/drivers/" + driver.getUserId() + "/requests",
+                responseDto);
+    }
+
+    System.out.println("STEP 10");
+
+    return ResponseEntity.ok(responseDto);
 }
-
     
 
     @PutMapping("/{id}/accept")
