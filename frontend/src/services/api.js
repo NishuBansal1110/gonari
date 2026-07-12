@@ -67,6 +67,5 @@ export const adminApi = {
 };
 
 // General contact form endpoint
-export const contactUsApi = (contactData) => api.post('/contact-us', contactData);
-
+export const contactUsApi = (contactData) => api.post('/api/contact-us', contactData);
 export default api;
