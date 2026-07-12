@@ -67,18 +67,25 @@ public class AuthService {
         User savedUser = userRepository.save(user);
 
         // If user is a driver, initialize the driver document
-        if ("DRIVER".equalsIgnoreCase(savedUser.getRole())) {
-            Driver driver = Driver.builder()
-                    .userId(savedUser.getId())
-                    .vehicleType(request.getVehicleType())
-                    .vehicleNumber(request.getVehicleNumber())
-                    .rating(5.0)
-                    .isAvailable(false) // Cannot go online until APPROVED
-                    .currentLocation(new GeoJsonPoint(0.0, 0.0)) // Default dummy point
-                    .updatedAt(LocalDateTime.now())
-                    .build();
-            driverRepository.save(driver);
-        }
+       // If user is a driver, initialize the driver document
+if ("DRIVER".equalsIgnoreCase(savedUser.getRole())) {
+
+    System.out.println("===== DRIVER DOCUMENT CREATING =====");
+
+    Driver driver = Driver.builder()
+            .userId(savedUser.getId())
+            .vehicleType(request.getVehicleType())
+            .vehicleNumber(request.getVehicleNumber())
+            .rating(5.0)
+            .isAvailable(false)
+            .currentLocation(new GeoJsonPoint(0.0, 0.0))
+            .updatedAt(LocalDateTime.now())
+            .build();
+
+    driverRepository.save(driver);
+
+    System.out.println("===== DRIVER SAVED SUCCESSFULLY =====");
+}
 
         String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getRole(), savedUser.getId(), savedUser.getName());
 
