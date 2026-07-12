@@ -78,19 +78,29 @@ public class RideController {
                 .build();
     }
 
-    @PostMapping("/request")
-public ResponseEntity<?> requestRide(@RequestBody RideRequestDto requestDto,
-                                     @AuthenticationPrincipal CustomUserDetails userDetails) {
+   @PostMapping("/request")
+public ResponseEntity<?> requestRide(
+        @RequestBody RideRequestDto requestDto,
+        @AuthenticationPrincipal CustomUserDetails userDetails) {
 
-    System.out.println("===== REQUEST RIDE API HIT =====");
+    System.out.println("====== REQUEST RIDE API HIT ======");
+    System.out.println("STEP 1");
 
     String riderId = userDetails.getUser().getId();
 
-        // 1. Check for existing active rides
-        List<Ride> activeRides = rideRepository.findByRiderIdAndStatusIn(riderId, List.of("REQUESTED", "ACCEPTED", "ONGOING"));
-        if (!activeRides.isEmpty()) {
-            return ResponseEntity.badRequest().body("You already have an active ride request or trip.");
-        }
+    System.out.println("STEP 2");
+
+    List<Ride> activeRides = rideRepository.findByRiderIdAndStatusIn(
+            riderId,
+            List.of("REQUESTED", "ACCEPTED", "ONGOING"));
+
+    System.out.println("STEP 3");
+
+    if (!activeRides.isEmpty()) {
+        return ResponseEntity.badRequest()
+                .body("You already have an active ride request or trip.");
+    }
+
 
         // 2. Generate standard 4-digit OTP
         String otp = String.format("%04d", random.nextInt(10000));
@@ -119,7 +129,11 @@ public ResponseEntity<?> requestRide(@RequestBody RideRequestDto requestDto,
         }
 
         return ResponseEntity.ok(responseDto);
-    }
+
+    
+}
+
+    
 
     @PutMapping("/{id}/accept")
     public ResponseEntity<?> acceptRide(@PathVariable String id, @AuthenticationPrincipal CustomUserDetails userDetails) {
