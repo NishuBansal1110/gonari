@@ -94,7 +94,24 @@ public ResponseEntity<?> requestRide(
             riderId,
             List.of("REQUESTED", "ACCEPTED", "ONGOING"));
 
+            System.out.println("RIDER ID = " + riderId);
+System.out.println("ACTIVE RIDES SIZE = " + activeRides.size());
+
+for (Ride r : activeRides) {
+    System.out.println("FOUND RIDE = " + r.getId());
+    System.out.println("STATUS = " + r.getStatus());
+    System.out.println("RIDER = " + r.getRiderId());
+}
+
     System.out.println("STEP 3");
+
+    System.out.println("ACTIVE RIDES COUNT = " + activeRides.size());
+
+for (Ride r : activeRides) {
+    System.out.println("Ride ID = " + r.getId());
+    System.out.println("Status = " + r.getStatus());
+    System.out.println("Rider = " + r.getRiderId());
+}
 
     if (!activeRides.isEmpty()) {
         return ResponseEntity.badRequest()
