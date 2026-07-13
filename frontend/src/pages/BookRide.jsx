@@ -114,7 +114,7 @@ export default function BookRide() {
 
   // Subscribe to ride updates
   const setupRideWebSocket = (rideId) => {
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS('https://gonari-13.onrender.com/ws');
     const client = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
@@ -141,7 +141,9 @@ export default function BookRide() {
     setError('');
 
     try {
-      const response = await rideApi.request({
+    console.log("Sending request...");
+
+    const response = await rideApi.request({
         pickupLat: pickup.lat,
         pickupLng: pickup.lng,
         dropLat: drop.lat,
@@ -149,15 +151,30 @@ export default function BookRide() {
         pickupAddress,
         dropAddress,
         fare,
-      });
+    });
 
-      const newRide = response.data;
-      setActiveRide(newRide);
-      setupRideWebSocket(newRide.id);
-    } catch (err) {
-      setBookingStatus('idle');
-      setError(err.response?.data || 'Failed to request ride. Please try again.');
-    }
+    console.log("Full Response:", response);
+    console.log("Response Data:", response.data);
+
+    const newRide = response.data;
+
+    console.log("Ride ID:", newRide.id);
+
+    setActiveRide(newRide);
+
+    console.log("Navigating...");
+
+    navigate(`/tracking?rideId=${newRide.id}`);
+
+} catch (err) {
+    console.log("ERROR OCCURRED");
+    console.log(err);
+    console.log(err.response);
+    console.log(err.response?.data);
+
+    setBookingStatus("idle");
+    setError(err.response?.data || "Failed");
+}
   };
 
   // Interactive Map Event Handler for clicks
