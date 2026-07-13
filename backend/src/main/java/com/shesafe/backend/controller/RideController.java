@@ -146,10 +146,26 @@ for (Ride r : activeRides) {
 
     System.out.println("STEP 8");
 
-    System.out.println("Skipping driver matching");
+// Find nearby female drivers
+List<Driver> nearbyDrivers = rideMatchingService.findNearbyDrivers(
+        requestDto.getPickupLat(),
+        requestDto.getPickupLng(),
+        10.0
+);
+
+System.out.println("Nearby Drivers Found : " + nearbyDrivers.size());
+
+// Notify every nearby driver
+for (Driver driver : nearbyDrivers) {
+    messagingTemplate.convertAndSend(
+            "/topic/drivers/" + driver.getUserId() + "/requests",
+            responseDto
+    );
+}
+
+System.out.println("Ride request sent to drivers.");
 
 return ResponseEntity.ok(responseDto);
-
     
 }
     

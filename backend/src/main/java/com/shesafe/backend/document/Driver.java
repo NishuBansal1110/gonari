@@ -18,8 +18,8 @@ public class Driver {
     private double rating;
     private boolean isAvailable;
     
-    @GeoSpatialIndexed(type = org.springframework.data.mongodb.core.index.GeoSpatialIndexType.GEO_2DSPHERE)
-    private GeoJsonPoint currentLocation; 
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+private GeoJsonPoint currentLocation; // location ki jagah currentLocation 
     
     private LocalDateTime updatedAt;
 
@@ -57,7 +57,7 @@ public class Driver {
     public void setAvailable(boolean available) { isAvailable = available; }
 
     public GeoJsonPoint getCurrentLocation() { return currentLocation; }
-    public void setCurrentLocation(GeoJsonPoint currentLocation) { this.currentLocation = currentLocation; }
+public void setCurrentLocation(GeoJsonPoint currentLocation) { this.currentLocation = currentLocation; }
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
